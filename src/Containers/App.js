@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
 import FirstScreen from '../Components/FirstScreen'
+import SecondScreen from '../Components/SecondScreen'
+// import {Route} from 'react-router-dom'
 
 class App extends Component {
-  // componenDidMount() {
-  //   return <FirstScreen />
-  // }
+  state = {
+    firstScreenDone: false
+  }
+
+  firstScreenDone = () => {
+    this.setState({firstScreenDone: true})
+  }
+
   render() {
-    return (
-      <div className="App">
-        <FirstScreen />
-      </div>
-    );
+    if (!this.state.firstScreenDone) {
+      return <FirstScreen done={this.firstScreenDone} />
+    }
+    else {
+      return <SecondScreen />
+    }
   }
 }
 
