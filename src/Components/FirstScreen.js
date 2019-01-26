@@ -6,10 +6,6 @@ var text = "Welcome to MountainClimber!              "
 
 class FirstScreen extends React.Component {
 
-  state= {
-    firstScreenDone: false
-  }
-
   componentDidMount() {
     this.typeWriter()
   }
@@ -28,11 +24,12 @@ class FirstScreen extends React.Component {
   render() {
     return <Container
       textAlign='center'>
-    <Header as='h1' id="typeWriter">
-      <Icon name='map signs'/>
-
-    </Header>
-
+        <Header
+          as='h1'
+          id="typeWriter"
+          className='star'>
+          <Icon name='map signs'/>
+        </Header>
   </Container>
   }
 }

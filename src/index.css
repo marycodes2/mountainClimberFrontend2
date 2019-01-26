@@ -37,10 +37,32 @@ body:before {
 }
 
 .container {
-  padding-top: 150px;
+  padding-top: 125px;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.star {
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+
+.star-enter {
+  opacity: 0.01;
+}
+
+.star-enter-active {
+  opacity: 1;
+  transition: all 600ms ease-out;
+}
+.star-exit {
+  opacity: 1;
+}
+
+.star-exit-active {
+  opacity: 0;
+  transition: all 3000ms ease-in;
 }
