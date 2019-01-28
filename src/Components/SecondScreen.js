@@ -35,11 +35,10 @@ class SecondScreen extends React.Component {
         options={this.state.locationList}
         className='star'
       />
-      <br/>
-      <br/>
       <Button
         color='green'
         onClick={() => this.handleSelections()}
+        id='submit'
         >
         Submit
       </Button>
