@@ -1,6 +1,7 @@
 import React from 'react'
-import { Container, Grid, Header, Card, Responsive } from 'semantic-ui-react'
+import { Grid, Header, Card, Responsive } from 'semantic-ui-react'
 import RouteCard from '../Components/RouteCard'
+import Navbar from '../Components/Navbar'
 
 
 class MainScreen extends React.Component {
@@ -26,10 +27,11 @@ class MainScreen extends React.Component {
 
   returnStateLocations = (state) => {
     return state.locations.map(location => {
-      return <React.Fragment>
+      return <React.Fragment
+        key={location.id}>
         <Header key={location.id} as='h2'>{location.name}</Header>
 
-        <Responsive maxWidth={670}>
+        <Responsive maxWidth={529}>
         <Card.Group itemsPerRow={1}>
           {location.routes.map(route => {
             return <RouteCard key={route.id} route={route}/>
@@ -38,7 +40,7 @@ class MainScreen extends React.Component {
         </Card.Group>
         </Responsive>
 
-        <Responsive minWidth={671} maxWidth={900}>
+        <Responsive minWidth={530} maxWidth={900}>
         <Card.Group itemsPerRow={2}>
           {location.routes.map(route => {
             return <RouteCard key={route.id} route={route}/>
@@ -61,22 +63,25 @@ class MainScreen extends React.Component {
   }
 
   render() {
-    return ( <Container>
-
-      <Grid>
-        <Grid.Row>
-          <Grid.Column padded="true">
-            {this.state.filteredLocations.map(state => {
-              return <React.Fragment>
-              {this.returnStateName(state)}
-              {this.returnStateLocations(state)}
-              </React.Fragment>
-            })}
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-
-      </Container>
+    return ( <React.Fragment>
+        <Navbar backToSecondScreen={this.props.backToSecondScreen}/>
+        <div
+          id='mainPageContainer'>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column padded="true">
+              {this.state.filteredLocations.map(state => {
+                return <React.Fragment
+                  key={state.id}>
+                  {this.returnStateName(state)}
+                  {this.returnStateLocations(state)}
+                </React.Fragment>
+              })}
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </div>
+      </React.Fragment>
     )
   }
 }

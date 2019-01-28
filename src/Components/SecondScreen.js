@@ -52,9 +52,7 @@ class SecondScreen extends React.Component {
       else if (dropdownActivation === "true") {
         dropdownActivation = true
       }
-      // console.log("dropdownActivation = ", dropdownActivation)
       if (this.state.expanded !== dropdownActivation) {
-        // console.log("setting expanded state to.. ", dropdownActivation)
         this.setState({expanded: dropdownActivation})
       }
     }
@@ -119,7 +117,7 @@ class SecondScreen extends React.Component {
         <Header
           as='h1'
           className='star'>
-          Get started by selecting a state to see its climbs
+          Select a state to see its climbs
         </Header>
       </CSSTransition>
       <br></br>

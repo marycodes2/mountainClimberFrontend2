@@ -29,6 +29,10 @@ class App extends Component {
     this.setState({selectedStates: states, secondScreenDone: true})
   }
 
+  goToSecondScreen = () => {
+    this.setState({secondScreenDone: false})
+  }
+
   render() {
     if (!this.state.firstScreenDone) {
       return <FirstScreen done={this.firstScreenDone} />
@@ -37,7 +41,7 @@ class App extends Component {
       return <SecondScreen url={BASE_URL} done={(states) => this.secondScreenDone(states)} />
     }
     else {
-      return <MainScreen selectedStates={this.state.selectedStates} locationList={this.state.locationList}/>
+      return <MainScreen selectedStates={this.state.selectedStates} locationList={this.state.locationList} backToSecondScreen={this.goToSecondScreen}/>
     }
   }
 }
