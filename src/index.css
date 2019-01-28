@@ -65,3 +65,11 @@ code {
   opacity: 0;
   transition: all 3000ms ease-in;
 }
+
+#submitNotExpanded {
+  margin-top: 10px;
+}
+
+#submitExpanded {
+  margin-top: 100px;
+}

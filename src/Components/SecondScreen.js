@@ -36,21 +36,52 @@ class SecondScreen extends React.Component {
         options={this.state.locationList}
         className='star'
       />
-      <br/><br/>
-      <Button
-        color='green'
-        onClick={() => this.handleSelections()}
-        >
-        Submit
-      </Button>
+      <br/> <br/>
+      {this.determineButton()}
+      {this.setDropdownEventListener()}
     </React.Fragment>
     }
   }
 
-  isExpanded = () => {
-    var dropdown = document.getElementsByClassName("ui multiple selection dropdown star")[0].getAttribute('aria-expanded')
-    if (this.state.expanded !== dropdown) {
-      this.setState({expanded: dropdown})
+  setExpandedState = () => {
+    console.log("setting expanded State..")
+    var dropdownActivation = document.getElementsByClassName("ui multiple selection dropdown star")[0].getAttribute('aria-expanded')
+    if (dropdownActivation === "false") {
+      dropdownActivation = false
+    }
+    else if (dropdownActivation === "true") {
+      dropdownActivation = true
+    }
+    if (this.state.expanded !== dropdownActivation) {
+      this.setState({expanded: dropdownActivation})
+    }
+  }
+
+  setDropdownEventListener = () => {
+    if (document.getElementsByClassName("ui multiple selection dropdown star")[0]) {
+      var dropdown = document.getElementsByClassName("ui multiple selection dropdown star")[0]
+      dropdown.addEventListener("click", () => this.setExpandedState()) 
+    }
+  }
+
+  determineButton = () => {
+    if (this.state.expanded) {
+      return <Button
+        color='green'
+        onClick={() => this.handleSelections()}
+        id='submitExpanded'
+        >
+        Submit
+      </Button>
+    }
+    else {
+      return <Button
+        color='green'
+        onClick={() => this.handleSelections()}
+        id='submitNotExpanded'
+        >
+        Submit
+      </Button>
     }
   }
 
