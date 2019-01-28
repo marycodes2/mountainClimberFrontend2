@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Grid, Header } from 'semantic-ui-react'
+import { Container, Grid, Header, Card, Responsive } from 'semantic-ui-react'
 import RouteCard from '../Components/RouteCard'
 
 
@@ -27,10 +27,35 @@ class MainScreen extends React.Component {
   returnStateLocations = (state) => {
     return state.locations.map(location => {
       return <React.Fragment>
-        <Header key={location.id} as='h3'>{location.name}</Header>
-        {location.routes.map(route => {
-          return <RouteCard route={route}/>
-        })}
+        <Header key={location.id} as='h2'>{location.name}</Header>
+
+        <Responsive maxWidth={670}>
+        <Card.Group itemsPerRow={1}>
+          {location.routes.map(route => {
+            return <RouteCard key={route.id} route={route}/>
+            }
+          )}
+        </Card.Group>
+        </Responsive>
+
+        <Responsive minWidth={671} maxWidth={900}>
+        <Card.Group itemsPerRow={2}>
+          {location.routes.map(route => {
+            return <RouteCard key={route.id} route={route}/>
+            }
+          )}
+        </Card.Group>
+        </Responsive>
+
+        <Responsive minWidth={901}>
+        <Card.Group itemsPerRow={4}>
+          {location.routes.map(route => {
+            return <RouteCard key={route.id} route={route}/>
+            }
+          )}
+        </Card.Group>
+        </Responsive>
+
       </React.Fragment>
     })
   }
@@ -38,7 +63,7 @@ class MainScreen extends React.Component {
   render() {
     return ( <Container>
 
-      <Grid columns={1}>
+      <Grid>
         <Grid.Row>
           <Grid.Column padded="true">
             {this.state.filteredLocations.map(state => {
