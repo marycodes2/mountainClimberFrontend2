@@ -7,7 +7,8 @@ class SecondScreen extends React.Component {
   state = {
     secondScreenLoad: false,
     locationList: [],
-    selectedStates: []
+    selectedStates: [],
+    expanded: false
   }
 
   componentDidMount() {
@@ -35,14 +36,21 @@ class SecondScreen extends React.Component {
         options={this.state.locationList}
         className='star'
       />
+      <br/><br/>
       <Button
         color='green'
         onClick={() => this.handleSelections()}
-        id='submit'
         >
         Submit
       </Button>
     </React.Fragment>
+    }
+  }
+
+  isExpanded = () => {
+    var dropdown = document.getElementsByClassName("ui multiple selection dropdown star")[0].getAttribute('aria-expanded')
+    if (this.state.expanded !== dropdown) {
+      this.setState({expanded: dropdown})
     }
   }
 

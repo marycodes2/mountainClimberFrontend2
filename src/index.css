@@ -65,7 +65,3 @@ code {
   opacity: 0;
   transition: all 3000ms ease-in;
 }
-
-#submit {
-  margin: 10px;
-}
