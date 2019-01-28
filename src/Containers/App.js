@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FirstScreen from '../Components/FirstScreen'
 import SecondScreen from '../Components/SecondScreen'
-import MainScreen from '../Components/MainScreen'
+import MainScreen from './MainScreen'
 const BASE_URL = 'https://mountain-climber-back-end.herokuapp.com/api/v1'
 
 class App extends Component {

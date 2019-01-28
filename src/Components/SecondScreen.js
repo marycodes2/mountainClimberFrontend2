@@ -44,18 +44,19 @@ class SecondScreen extends React.Component {
   }
 
   setExpandedState = () => {
-    var dropdownActivation = document.getElementsByClassName("ui multiple selection dropdown star")[0].getAttribute('aria-expanded')
-    console.log("above dropdownActivation = ", dropdownActivation)
-    if (dropdownActivation === "false") {
-      dropdownActivation = false
-    }
-    else if (dropdownActivation === "true") {
-      dropdownActivation = true
-    }
-    console.log("below dropdownActivation = ", dropdownActivation)
-    if (this.state.expanded !== dropdownActivation) {
-      console.log("setting expanded state to.. ", dropdownActivation)
-      this.setState({expanded: dropdownActivation})
+    if (document.getElementsByClassName("ui multiple selection dropdown star")[0]) {
+      var dropdownActivation = document.getElementsByClassName("ui multiple selection dropdown star")[0].getAttribute('aria-expanded')
+      if (dropdownActivation === "false") {
+        dropdownActivation = false
+      }
+      else if (dropdownActivation === "true") {
+        dropdownActivation = true
+      }
+      // console.log("dropdownActivation = ", dropdownActivation)
+      if (this.state.expanded !== dropdownActivation) {
+        // console.log("setting expanded state to.. ", dropdownActivation)
+        this.setState({expanded: dropdownActivation})
+      }
     }
   }
 
@@ -90,6 +91,8 @@ class SecondScreen extends React.Component {
 
   handleSelections = (event) => {
     var stateNodes = document.getElementsByClassName("ui label")
+    document.body.removeEventListener("click", () => this.setExpandedState(), false)
+    document.body.removeEventListener("click", () => this.setExpandedState(), true)
     var states = []
       Array.from(stateNodes).forEach(stateNode => {
         states.push(stateNode.innerText)
