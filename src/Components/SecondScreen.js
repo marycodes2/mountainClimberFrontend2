@@ -44,15 +44,17 @@ class SecondScreen extends React.Component {
   }
 
   setExpandedState = () => {
-    console.log("setting expanded State..")
     var dropdownActivation = document.getElementsByClassName("ui multiple selection dropdown star")[0].getAttribute('aria-expanded')
+    console.log("above dropdownActivation = ", dropdownActivation)
     if (dropdownActivation === "false") {
       dropdownActivation = false
     }
     else if (dropdownActivation === "true") {
       dropdownActivation = true
     }
+    console.log("below dropdownActivation = ", dropdownActivation)
     if (this.state.expanded !== dropdownActivation) {
+      console.log("setting expanded state to.. ", dropdownActivation)
       this.setState({expanded: dropdownActivation})
     }
   }
@@ -60,7 +62,8 @@ class SecondScreen extends React.Component {
   setDropdownEventListener = () => {
     if (document.getElementsByClassName("ui multiple selection dropdown star")[0]) {
       var dropdown = document.getElementsByClassName("ui multiple selection dropdown star")[0]
-      dropdown.addEventListener("click", () => this.setExpandedState()) 
+      dropdown.addEventListener("click", () => this.setExpandedState())
+      document.body.addEventListener("click", () => this.setExpandedState())
     }
   }
 
