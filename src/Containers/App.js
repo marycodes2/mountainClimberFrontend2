@@ -8,7 +8,17 @@ class App extends Component {
   state = {
     firstScreenDone: false,
     secondScreenDone: false,
-    selectedStates: []
+    selectedStates: [],
+    locationList: []
+  }
+  componentDidMount() {
+    this.fetchLocation()
+  }
+
+  fetchLocation = () => {
+    fetch(`${BASE_URL}/locations`)
+    .then(res=> res.json())
+    .then(data => this.setState({locationList: data}))
   }
 
   firstScreenDone = () => {
@@ -27,7 +37,7 @@ class App extends Component {
       return <SecondScreen url={BASE_URL} done={(states) => this.secondScreenDone(states)} />
     }
     else {
-      return <MainScreen />
+      return <MainScreen selectedStates={this.state.selectedStates} locationList={this.state.locationList}/>
     }
   }
 }

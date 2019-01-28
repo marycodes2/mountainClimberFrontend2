@@ -20,11 +20,11 @@ body {
 body:before {
     z-index: -1; /* Keep the background behind the content */
     content: "";
-    background-image: url(./Images/smithRockBlurred.jpg);
+    background-image: url(./Images/flipped.jpg);
     background-attachment: absolute;
     position: fixed;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
     background-color: #756456;
     height: 20%; width: 20%; /* Using Glen Maddern's trick /via @mente */
 
@@ -33,7 +33,6 @@ body:before {
     transform-origin: top left;
     filter: blur(1px);
     opacity:.25;
-
 }
 
 .container {
