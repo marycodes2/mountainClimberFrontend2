@@ -104,6 +104,7 @@ class RouteCard extends React.Component {
       rating: this.state.rating,
       route_id: this.props.route.id
     }
+    console.log(this.props.url)
     fetch(`${this.props.url}/reviews`, {
       method: "POST",
       headers: {
@@ -113,11 +114,11 @@ class RouteCard extends React.Component {
     })
     .then(res => res.json())
     .then(review => {
-      if (review) {
+      if (review.id) {
         this.setState({formDisplayed: false, reviews: [...this.state.reviews, review]})
       }
       else {
-        alert('The development server is down.. please wait a minute and try to submit again. Thanks for your patience.')
+        alert('The development server is down - please wait a minute and try again. Thanks for your patience.')
       }
     })
   }

@@ -41,7 +41,7 @@ class MainScreen extends React.Component {
         <Responsive minWidth={530} maxWidth={900}>
         <Card.Group itemsPerRow={2}>
           {location.routes.map(route => {
-            return <RouteCard key={route.id} route={route}/>
+            return <RouteCard url={this.props.url} key={route.id} route={route}/>
             }
           )}
         </Card.Group>
@@ -50,7 +50,7 @@ class MainScreen extends React.Component {
         <Responsive minWidth={901}>
         <Card.Group itemsPerRow={4}>
           {location.routes.map(route => {
-            return <RouteCard key={route.id} route={route}/>
+            return <RouteCard url={this.props.url} key={route.id} route={route}/>
             }
           )}
         </Card.Group>
