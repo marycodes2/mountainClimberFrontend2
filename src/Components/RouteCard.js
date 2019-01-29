@@ -113,7 +113,12 @@ class RouteCard extends React.Component {
     })
     .then(res => res.json())
     .then(review => {
-      this.setState({formDisplayed: false, reviews: [...this.state.reviews, review]})
+      if (review) {
+        this.setState({formDisplayed: false, reviews: [...this.state.reviews, review]})
+      }
+      else {
+        alert('The development server is down.. please wait a minute and try to submit again. Thanks for your patience.')
+      }
     })
   }
   }
