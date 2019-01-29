@@ -130,13 +130,14 @@ class SecondScreen extends React.Component {
           className='star'>
           Select a state to see its climbs
         </Header>
+        <br/><br/>
         <Dropdown
           placeholder='State'
           multiple selection
           options={this.sortLocationList()}
           className='star'
         />
-        <br/> <br/>
+        <br/><br/>
         {this.determineButton()}
         {this.setDropdownEventListener()}
         </React.Fragment>
