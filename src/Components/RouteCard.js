@@ -26,6 +26,12 @@ class RouteCard extends React.Component {
           <Comment.Action>
               Rating: {review.rating} <Icon name='star' />
           </Comment.Action>
+          <Comment.Actions>
+            <Comment.Action
+            onClick={() => this.deleteReview(review.id)}>
+              Delete
+            </Comment.Action>
+          </Comment.Actions>
         </Comment.Content>
       </Comment>)
     })
@@ -125,6 +131,17 @@ class RouteCard extends React.Component {
       }
     })
   }
+  }
+
+  deleteReview = (id) => {
+    fetch(`${this.props.url}/reviews/${id}`,
+      {method: "DELETE"})
+    .then(res => res.json())
+    .then(review => {
+      this.setState({reviews: this.state.reviews.filter(comment => {
+        return comment.id !== review.id
+      })})
+    })
   }
 
   render() {
