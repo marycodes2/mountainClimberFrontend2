@@ -33,18 +33,22 @@ class RouteCard extends React.Component {
   }
 
   extra = () => {
-    return <div>
-      Grade: {this.props.route.rating}
-        <br/>
-      Pitches: {this.props.route.pitches}
-        <br/>
-      <Button
-        content='Add Comment'
-        labelPosition='left'
-        icon='edit'
-        color='grey'
-        onClick={this.respondToCommentClick} />
-    </div>
+    if(this.state.formDisplayed) {
+      return <Button
+          content='Nevermind'
+          labelPosition='left'
+          icon='edit'
+          color='grey'
+          onClick={this.respondToCommentClick} />
+    }
+    else {
+      return <Button
+          content='Add Comment'
+          labelPosition='left'
+          icon='edit'
+          color='grey'
+          onClick={this.respondToCommentClick} />
+    }
   }
 
   comments = () => {
@@ -68,7 +72,7 @@ class RouteCard extends React.Component {
   }
 
   respondToCommentClick = () => {
-    this.setState({formDisplayed: true})
+    this.setState({formDisplayed: !this.state.formDisplayed})
   }
 
   displayForm = () => {
@@ -85,7 +89,7 @@ class RouteCard extends React.Component {
           <Form.TextArea width={15} required label='Comment' placeholder='Your comment here..' onChange={(event) => {this.setState({comments: event.target.value})}}/>
         </Form.Group>
         <Form.Group>
-          <Form.Input width={5} required fluid type='number' max={5} label='Rating' placeholder='5' onChange={(event) => {this.setState({rating: event.target.value})}}/>
+          <Form.Input width={6} required fluid type='number' max={5} label='Rating (out of 5 stars)' placeholder='5' onChange={(event) => {this.setState({rating: event.target.value})}}/>
         </Form.Group>
         <Button
           type='submit'
@@ -114,7 +118,7 @@ class RouteCard extends React.Component {
     })
     .then(res => res.json())
     .then(review => {
-      if (review.id) {
+      if (review) {
         this.setState({formDisplayed: false, reviews: [...this.state.reviews, review]})
       }
       else {
@@ -128,6 +132,11 @@ class RouteCard extends React.Component {
     return (<Card raised
       image={this.props.route.imgMedium}
       header={this.props.route.name}
+      meta={<div>
+        Grade: {this.props.route.rating}
+          <br/>
+        Pitches: {this.props.route.pitches}
+          <br/></div>}
       description={this.comments()}
       extra={this.extra()}
       />
