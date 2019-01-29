@@ -108,7 +108,6 @@ class RouteCard extends React.Component {
       rating: this.state.rating,
       route_id: this.props.route.id
     }
-    console.log(this.props.url)
     fetch(`${this.props.url}/reviews`, {
       method: "POST",
       headers: {

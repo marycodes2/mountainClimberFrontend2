@@ -24,6 +24,21 @@ class SecondScreen extends React.Component {
     }))
   }
 
+  compare = (a, b) => {
+    let comparison = 0
+    if (a.key > b.key) {
+      comparison = 1
+    }
+    else {
+      comparison = -1
+    }
+    return comparison
+  }
+
+  sortLocationList = () => {
+    return this.state.locationList.sort(this.compare)
+  }
+
   renderDropdownOrLoader = () => {
     if (this.state.locationList.length === 0) {
       return <Loader active inline='centered' />
@@ -33,7 +48,7 @@ class SecondScreen extends React.Component {
       <Dropdown
         placeholder='State'
         multiple selection
-        options={this.state.locationList}
+        options={this.sortLocationList()}
         className='star'
       />
       <br/> <br/>

@@ -90,3 +90,8 @@ code {
   margin-left: 10px;
   margin-top: 10px
 }
+
+img.ui.image {
+  height: 404px;
+  width: 450px;
+}
