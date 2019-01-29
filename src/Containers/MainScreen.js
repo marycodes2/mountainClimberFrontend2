@@ -17,7 +17,6 @@ class MainScreen extends React.Component {
     var filteredLocationsList = this.props.locationList.filter(location => {
       return this.props.selectedStates.includes(location.name)
     })
-    console.log(filteredLocationsList)
     this.setState({filteredLocations: filteredLocationsList})
   }
 

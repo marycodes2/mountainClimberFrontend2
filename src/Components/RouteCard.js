@@ -3,6 +3,10 @@ import { Card, Comment, Icon, Header, Form, Button } from 'semantic-ui-react'
 
 class RouteCard extends React.Component {
 
+  state = {
+    formDisplayed: false
+  }
+
   returnReviews = () => {
     var comments = []
     this.props.route.reviews.forEach(review => {
@@ -26,6 +30,12 @@ class RouteCard extends React.Component {
         <br/>
       Pitches: {this.props.route.pitches}
         <br/>
+      <Button
+        content='Add Comment'
+        labelPosition='left'
+        icon='edit'
+        color='grey'
+        onClick={this.respondToCommentClick} />
     </div>
   }
 
@@ -37,29 +47,32 @@ class RouteCard extends React.Component {
           Comments
         </Header>
         {this.returnReviews()}
-        <Form reply>
-          <Form.TextArea />
-          <Button content='Add Comment' labelPosition='left' icon='edit' primary />
-        </Form>
+        {this.state.formDisplayed ? this.displayForm() : ""}
       </Comment.Group>
       </div>
     }
+    else if (this.state.formDisplayed){
+      return this.displayForm()
+    }
     else {
-      return <Form reply id='comments'>
-        <Form.TextArea />
-        <Button content='Add Comment' labelPosition='left' icon='edit' primary />
-      </Form>
+      return ""
     }
   }
 
-  form = () => {
-    var ratingOptions = [1, 2, 3, 4, 5]
-    return <Form reply>
+  respondToCommentClick = () => {
+    this.setState({formDisplayed: true})
+  }
+
+  displayForm = () => {
+    return <Form reply id='reviewHeader'>
       <Form.Group widths='equal'>
+        <br/>
+        <Header as='h4' dividing>
+          Review this Route:
+        </Header>
         <Form.Input fluid label='Name' placeholder='Name' />
         <Form.TextArea label='Comment' placeholder='Your comment here..' />
-        <Form.Select fluid label='Rating' options={ratingOptions} placeholder='3' />
-        <Button content='Add Comment' labelPosition='left' icon='edit' primary />
+        <Form.Input fluid type='number' max={5} label='Rating' placeholder='5 Stars'/>
       </Form.Group>
     </Form>
   }
