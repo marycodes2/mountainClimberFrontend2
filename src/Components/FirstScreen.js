@@ -10,6 +10,7 @@ class FirstScreen extends React.Component {
     this.typeWriter()
   }
 
+  //typerwriter simulation on greeting page - add new letter ever 70 ms
   typeWriter = () => {
     if (i < text.length) {
       document.getElementById("typeWriter").innerHTML += text.charAt(i)
@@ -17,6 +18,7 @@ class FirstScreen extends React.Component {
       setTimeout(this.typeWriter, 70);
     }
     else {
+      // complete this page and move to secondScreen
       this.props.done();
     }
   }

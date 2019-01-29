@@ -38,7 +38,7 @@ class App extends Component {
       return <FirstScreen done={this.firstScreenDone} />
     }
     else if (this.state.firstScreenDone && !this.state.secondScreenDone){
-      return <SecondScreen url={BASE_URL} done={(states) => this.secondScreenDone(states)} />
+      return <SecondScreen url={BASE_URL} locationList={this.state.locationList} done={(states) => this.secondScreenDone(states)} />
     }
     else {
       return <MainScreen updateLocationList={(review) => {this.updateLocationList(review)}} url={BASE_URL} selectedStates={this.state.selectedStates} locationList={this.state.locationList} backToSecondScreen={this.goToSecondScreen}/>

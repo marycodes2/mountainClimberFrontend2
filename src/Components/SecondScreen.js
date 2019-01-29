@@ -1,29 +1,37 @@
 import React from 'react'
-import { Container, Header, Dropdown, Loader, Button} from 'semantic-ui-react'
+import { Container, Header, Dropdown, Button} from 'semantic-ui-react'
 import { CSSTransition } from 'react-transition-group';
 
 class SecondScreen extends React.Component {
 
   state = {
     secondScreenLoad: false,
-    locationList: [],
+    stateOptionsList: [],
     selectedStates: [],
     expanded: false
   }
 
   componentDidMount() {
+    // need secondScreenLoad for CSSTransition
     this.setState({secondScreenLoad: true})
-    this.fetchLocation()
+    this.createStateOptionsList()
   }
 
-  fetchLocation = () => {
-    fetch(`${this.props.url}/locations`)
-    .then(res=> res.json())
-    .then(data => data.forEach(location => {
-      this.setState({locationList: [...this.state.locationList, ({key: location.name, text: location.name, value: location.name})]})
-    }))
+  //use locationList prop to create options list for dropdown
+  createStateOptionsList = () => {
+    var statesList = []
+    this.props.locationList.forEach(loc => {
+      statesList.push({key: loc.name, text: loc.name, value: loc.name})
+    })
+    this.setState({stateOptionsList: statesList})
   }
 
+  //sort stateOptionsList
+  sortLocationList = () => {
+    return this.state.stateOptionsList.sort(this.compare)
+  }
+
+  //basic sort function
   compare = (a, b) => {
     let comparison = 0
     if (a.key > b.key) {
@@ -35,29 +43,18 @@ class SecondScreen extends React.Component {
     return comparison
   }
 
-  sortLocationList = () => {
-    return this.state.locationList.sort(this.compare)
-  }
-
-  renderDropdownOrLoader = () => {
-    if (this.state.locationList.length === 0) {
-      return <Loader active inline='centered' />
-    }
-    else {
-    return <React.Fragment>
-      <Dropdown
-        placeholder='State'
-        multiple selection
-        options={this.sortLocationList()}
-        className='star'
-      />
-      <br/> <br/>
-      {this.determineButton()}
-      {this.setDropdownEventListener()}
-    </React.Fragment>
+  //add event listener to dropdown menu so that every time it is clicked,
+  //setExpandedState function is executed
+  setDropdownEventListener = () => {
+    if (document.getElementsByClassName("ui multiple selection dropdown star")[0]) {
+      var dropdown = document.getElementsByClassName("ui multiple selection dropdown star")[0]
+      dropdown.addEventListener("click", () => this.setExpandedState())
+      document.body.addEventListener("click", () => this.setExpandedState())
     }
   }
 
+  //grab dropdown menu aria-expanded element from the DOM and set state for whether it is expanded or
+  //not - used to place the submit button under the dropdown at all times
   setExpandedState = () => {
     if (document.getElementsByClassName("ui multiple selection dropdown star")[0]) {
       var dropdownActivation = document.getElementsByClassName("ui multiple selection dropdown star")[0].getAttribute('aria-expanded')
@@ -67,20 +64,15 @@ class SecondScreen extends React.Component {
       else if (dropdownActivation === "true") {
         dropdownActivation = true
       }
+      //only set state if aria-expanded is different from expanded state
       if (this.state.expanded !== dropdownActivation) {
         this.setState({expanded: dropdownActivation})
       }
     }
   }
 
-  setDropdownEventListener = () => {
-    if (document.getElementsByClassName("ui multiple selection dropdown star")[0]) {
-      var dropdown = document.getElementsByClassName("ui multiple selection dropdown star")[0]
-      dropdown.addEventListener("click", () => this.setExpandedState())
-      document.body.addEventListener("click", () => this.setExpandedState())
-    }
-  }
-
+  //determine where the button should be situated on the page based on whether
+  //dropdown is activated
   determineButton = () => {
     if (this.state.expanded) {
       return <Button
@@ -102,8 +94,10 @@ class SecondScreen extends React.Component {
     }
   }
 
+  //add all selected states to selectedStates state
   handleSelections = (event) => {
     var stateNodes = document.getElementsByClassName("ui label")
+    //remove event listener from body
     document.body.removeEventListener("click", () => this.setExpandedState(), false)
     document.body.removeEventListener("click", () => this.setExpandedState(), true)
     var states = []
@@ -120,6 +114,7 @@ class SecondScreen extends React.Component {
     }
   }
 
+  //render container with CSS Trainsitions
   render() {
     return  <Container
       textAlign='center'>
@@ -129,14 +124,23 @@ class SecondScreen extends React.Component {
         classNames="star"
         unmountOnExit
         >
+        <React.Fragment>
         <Header
           as='h1'
           className='star'>
           Select a state to see its climbs
         </Header>
+        <Dropdown
+          placeholder='State'
+          multiple selection
+          options={this.sortLocationList()}
+          className='star'
+        />
+        <br/> <br/>
+        {this.determineButton()}
+        {this.setDropdownEventListener()}
+        </React.Fragment>
       </CSSTransition>
-      <br></br>
-      {this.renderDropdownOrLoader()}
     </Container>
 
   }
