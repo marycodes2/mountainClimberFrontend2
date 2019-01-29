@@ -28,12 +28,11 @@ class MainScreen extends React.Component {
     return state.locations.map(location => {
       return <React.Fragment
         key={location.id}>
-        <Header key={location.id} as='h2'>{location.name}</Header>
-
+        {location.routes.length > 0 ? <Header key={location.id} as='h2'>{location.name}</Header> : "" }
         <Responsive maxWidth={529}>
         <Card.Group itemsPerRow={1}>
           {location.routes.map(route => {
-            return <RouteCard key={route.id} route={route}/>
+            return <RouteCard url={this.props.url} key={route.id} route={route}/>
             }
           )}
         </Card.Group>

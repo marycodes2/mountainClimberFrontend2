@@ -4,12 +4,20 @@ import { Card, Comment, Icon, Header, Form, Button } from 'semantic-ui-react'
 class RouteCard extends React.Component {
 
   state = {
-    formDisplayed: false
+    formDisplayed: false,
+    reviewer: "",
+    comments: "",
+    rating: "",
+    reviews: []
+  }
+
+  componentDidMount() {
+    this.setState({reviews: this.props.route.reviews})
   }
 
   returnReviews = () => {
     var comments = []
-    this.props.route.reviews.forEach(review => {
+    this.state.reviews.forEach(review => {
       comments.push(<Comment key={review.id}>
         <Comment.Avatar src={require('../Images/climber.png')} />
         <Comment.Content>
@@ -40,7 +48,7 @@ class RouteCard extends React.Component {
   }
 
   comments = () => {
-    if (this.props.route.reviews.length > 0) {
+    if (this.state.reviews.length > 0) {
       return <div id="comments">
       <Comment.Group>
         <Header as='h4' dividing>
@@ -65,16 +73,49 @@ class RouteCard extends React.Component {
 
   displayForm = () => {
     return <Form reply id='reviewHeader'>
-      <Form.Group widths='equal'>
-        <br/>
-        <Header as='h4' dividing>
-          Review this Route:
-        </Header>
-        <Form.Input fluid label='Name' placeholder='Name' />
-        <Form.TextArea label='Comment' placeholder='Your comment here..' />
-        <Form.Input fluid type='number' max={5} label='Rating' placeholder='5 Stars'/>
-      </Form.Group>
+        <Form.Group>
+          <Header as='h4' dividing>
+            Your Review:
+          </Header>
+        </Form.Group>
+        <Form.Group>
+          <Form.Input width={7} required fluid label='Name' placeholder='Name' onChange={(event) => {this.setState({reviewer: event.target.value})}}/>
+        </Form.Group>
+        <Form.Group>
+          <Form.TextArea width={15} required label='Comment' placeholder='Your comment here..' onChange={(event) => {this.setState({comments: event.target.value})}}/>
+        </Form.Group>
+        <Form.Group>
+          <Form.Input width={5} required fluid type='number' max={5} label='Rating' placeholder='5' onChange={(event) => {this.setState({rating: event.target.value})}}/>
+        </Form.Group>
+        <Button
+          type='submit'
+          content='Submit'
+          primary
+          onClick={this.submitReview}
+          />
     </Form>
+  }
+
+  submitReview = () => {
+    if (this.state.reviewer && this.state.comments && this.state.rating <=5 && this.state.rating) {
+    let formData = {
+      reviewer: this.state.reviewer,
+      comments: this.state.comments,
+      rating: this.state.rating,
+      route_id: this.props.route.id
+    }
+    fetch(`${this.props.url}/reviews`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(res => res.json())
+    .then(review => {
+      this.setState({formDisplayed: false, reviews: [...this.state.reviews, review]})
+    })
+  }
   }
 
   render() {
