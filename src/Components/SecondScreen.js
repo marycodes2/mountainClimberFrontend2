@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Header, Dropdown, Button, Loader } from 'semantic-ui-react'
+import { Container, Header, Dropdown, Button, Loader, Responsive } from 'semantic-ui-react'
 import { CSSTransition } from 'react-transition-group';
 
 class SecondScreen extends React.Component {
@@ -102,13 +102,39 @@ class SecondScreen extends React.Component {
   //dropdown is activated (updates on every state change as a result of button click)
   determineButton = () => {
     if (this.state.expanded) {
-      return <Button
-        color='green'
-        onClick={() => this.handleSelections()}
-        id='submitExpanded'
-        >
-        Submit
-      </Button>
+      return <React.Fragment>
+
+      <Responsive maxWidth={767}>
+        <Button
+          color='green'
+          onClick={() => this.handleSelections()}
+          id='submitExpanded'
+          >
+          Submit
+        </Button>
+      </Responsive>
+
+      <Responsive minWidth={768} maxWidth={988}>
+        <Button
+          color='green'
+          onClick={() => this.handleSelections()}
+          id='submitExpandedMed'
+          >
+          Submit
+        </Button>
+      </Responsive>
+
+        <Responsive minWidth={989}>
+          <Button
+            color='green'
+            onClick={() => this.handleSelections()}
+            id='submitExpandedLarge'
+            >
+            Submit
+          </Button>
+        </Responsive>
+
+        </React.Fragment>
     }
     else {
       return <Button

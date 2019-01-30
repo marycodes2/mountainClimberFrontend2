@@ -74,6 +74,14 @@ code {
   margin-top: 100px;
 }
 
+#submitExpandedMed {
+  margin-top: 160px;
+}
+
+#submitExpandedLarge {
+  margin-top: 220px;
+}
+
 #mainPageContainer {
   margin: 35px;
 }
