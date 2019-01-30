@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Header, Dropdown, Button} from 'semantic-ui-react'
+import { Container, Header, Dropdown, Button, Loader } from 'semantic-ui-react'
 import { CSSTransition } from 'react-transition-group';
 
 class SecondScreen extends React.Component {
@@ -8,7 +8,8 @@ class SecondScreen extends React.Component {
     secondScreenLoad: false,
     stateOptionsList: [],
     selectedStates: [],
-    expanded: false
+    expanded: false,
+    setEventHandlerOnDropdown: false
   }
 
   componentDidMount() {
@@ -43,21 +44,48 @@ class SecondScreen extends React.Component {
     return comparison
   }
 
+  //render loader if there are no stateOptions to choose from (this shouldn't happen because
+  // second screen should only load if the fetch call for locationList is complete, but just
+  // in case...)
+  renderDropdownOrLoader = () => {
+   if (this.state.stateOptionsList.length === 0) {
+     return <Loader active inline='centered' />
+   }
+   else {
+   return <React.Fragment>
+     <Dropdown
+       placeholder='State'
+       multiple selection
+       options={this.sortLocationList()}
+       className='star'
+       onChange={this.setDropdownEventListener}
+     />
+     <br/> <br/>
+     {this.determineButton()}
+   </React.Fragment>
+   }
+ }
+
   //add event listener to dropdown menu so that every time it is clicked,
   //setExpandedState function is executed
   setDropdownEventListener = () => {
-    if (document.getElementsByClassName("ui multiple selection dropdown star")[0]) {
-      var dropdown = document.getElementsByClassName("ui multiple selection dropdown star")[0]
-      dropdown.addEventListener("click", () => this.setExpandedState())
-      document.body.addEventListener("click", () => this.setExpandedState())
+    var dropdown = document.getElementsByClassName("ui multiple selection dropdown star")[0]
+    //event handlers should only be added to dropdown and body once, when this.state.setEventHandlerOnDropdown
+    // is false. Once changed to true, event handlers are no longer set
+    if (dropdown && !this.state.setEventHandlerOnDropdown) {
+      this.setState({setEventHandlerOnDropdown: true})
+      dropdown.addEventListener("click", () => this.setExpandedState(dropdown))
+      document.body.addEventListener("click", () => this.setExpandedState(dropdown))
+      //set state on first click of dropdown
+      this.setExpandedState(dropdown)
     }
+
   }
 
   //grab dropdown menu aria-expanded element from the DOM and set state for whether it is expanded or
   //not - used to place the submit button under the dropdown at all times
-  setExpandedState = () => {
-    if (document.getElementsByClassName("ui multiple selection dropdown star")[0]) {
-      var dropdownActivation = document.getElementsByClassName("ui multiple selection dropdown star")[0].getAttribute('aria-expanded')
+  setExpandedState = (dropdown) => {
+      var dropdownActivation = dropdown.getAttribute('aria-expanded')
       if (dropdownActivation === "false") {
         dropdownActivation = false
       }
@@ -68,11 +96,10 @@ class SecondScreen extends React.Component {
       if (this.state.expanded !== dropdownActivation) {
         this.setState({expanded: dropdownActivation})
       }
-    }
   }
 
   //determine where the button should be situated on the page based on whether
-  //dropdown is activated
+  //dropdown is activated (updates on every state change as a result of button click)
   determineButton = () => {
     if (this.state.expanded) {
       return <Button
@@ -94,7 +121,7 @@ class SecondScreen extends React.Component {
     }
   }
 
-  //add all selected states to selectedStates state
+  //add all states selected in dropdown to state:selectedStates
   handleSelections = (event) => {
     var stateNodes = document.getElementsByClassName("ui label")
     //remove event listener from body
@@ -105,9 +132,11 @@ class SecondScreen extends React.Component {
         states.push(stateNode.innerText)
       }
     )
+    //cannot move to mainScreen until at least one state is selected
     if (states.length === 0) {
       alert("Please select a state before continuing")
     }
+    //transition to mainScreen
     else {
       this.setState({selectedStates: states})
       this.props.done(states)
@@ -130,20 +159,11 @@ class SecondScreen extends React.Component {
           className='star'>
           Select a state to see its climbs
         </Header>
-        <br/><br/>
-        <Dropdown
-          placeholder='State'
-          multiple selection
-          options={this.sortLocationList()}
-          className='star'
-        />
-        <br/><br/>
-        {this.determineButton()}
-        {this.setDropdownEventListener()}
+        <br/>
+        {this.renderDropdownOrLoader()}
         </React.Fragment>
       </CSSTransition>
     </Container>
-
   }
 }
 

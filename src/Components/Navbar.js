@@ -1,6 +1,7 @@
 import React from 'react'
 import { Icon } from 'semantic-ui-react'
 
+// simple navbar with onClick handler to transition back to second screen
 class Navbar extends React.Component {
   render() {
     return(<div

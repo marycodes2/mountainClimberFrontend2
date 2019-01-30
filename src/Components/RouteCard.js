@@ -15,6 +15,29 @@ class RouteCard extends React.Component {
     this.setState({reviews: this.props.route.reviews})
   }
 
+  // return existing comments section, including add review form if 'Add Review'
+  // button clicked (determined by displayForm function)
+  comments = () => {
+    if (this.state.reviews.length > 0) {
+      return <div id="comments">
+      <Comment.Group>
+        <Header as='h4' dividing>
+          Comments
+        </Header>
+        {this.returnReviews()}
+        {this.state.formDisplayed ? this.displayForm() : ""}
+      </Comment.Group>
+      </div>
+    }
+    else if (this.state.formDisplayed){
+      return this.displayForm()
+    }
+    else {
+      return ""
+    }
+  }
+
+  // return each review in Comment Semantic component
   returnReviews = () => {
     var comments = []
     this.state.reviews.forEach(review => {
@@ -38,49 +61,7 @@ class RouteCard extends React.Component {
     return comments
   }
 
-  extra = () => {
-    if(this.state.formDisplayed) {
-      return <Button
-          content='Nevermind'
-          labelPosition='left'
-          icon='edit'
-          color='grey'
-          onClick={this.respondToCommentClick} />
-    }
-    else {
-      return <Button
-          content='Add Comment'
-          labelPosition='left'
-          icon='edit'
-          color='grey'
-          onClick={this.respondToCommentClick} />
-    }
-  }
-
-  comments = () => {
-    if (this.state.reviews.length > 0) {
-      return <div id="comments">
-      <Comment.Group>
-        <Header as='h4' dividing>
-          Comments
-        </Header>
-        {this.returnReviews()}
-        {this.state.formDisplayed ? this.displayForm() : ""}
-      </Comment.Group>
-      </div>
-    }
-    else if (this.state.formDisplayed){
-      return this.displayForm()
-    }
-    else {
-      return ""
-    }
-  }
-
-  respondToCommentClick = () => {
-    this.setState({formDisplayed: !this.state.formDisplayed})
-  }
-
+  // display "Add Review" form
   displayForm = () => {
     return <Form reply id='reviewHeader'>
         <Form.Group>
@@ -106,6 +87,33 @@ class RouteCard extends React.Component {
     </Form>
   }
 
+  // respond to Add Comment click
+  respondToCommentClick = () => {
+    this.setState({formDisplayed: !this.state.formDisplayed})
+  }
+
+  // determine content for 'Add Review' button based on whether
+  // it has been clicked
+  extra = () => {
+    if(this.state.formDisplayed) {
+      return <Button
+          content='Nevermind'
+          labelPosition='left'
+          icon='edit'
+          color='grey'
+          onClick={this.respondToCommentClick} />
+    }
+    else {
+      return <Button
+          content='Add Review'
+          labelPosition='left'
+          icon='edit'
+          color='grey'
+          onClick={this.respondToCommentClick} />
+    }
+  }
+
+  // submit review to DB after Add Review Button is clicked and add review to DOM
   submitReview = () => {
     if (this.state.reviewer && this.state.comments && this.state.rating <=5 && this.state.rating) {
     let formData = {
@@ -133,6 +141,7 @@ class RouteCard extends React.Component {
   }
   }
 
+  // Delete review from DB if delete button is clicked and remove review from the DOM
   deleteReview = (id) => {
     fetch(`${this.props.url}/reviews/${id}`,
       {method: "DELETE"})

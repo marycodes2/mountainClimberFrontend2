@@ -13,6 +13,8 @@ class MainScreen extends React.Component {
     this.filterLocationList()
   }
 
+  // filter locationList for just the objects for states that the user selected
+  // in secondScreen
   filterLocationList = () => {
     var filteredLocationsList = this.props.locationList.filter(location => {
       return this.props.selectedStates.includes(location.name)
@@ -20,15 +22,19 @@ class MainScreen extends React.Component {
     this.setState({filteredLocations: filteredLocationsList})
   }
 
+  // return header with state name
   returnStateName = (state) => {
     return <Header key={state.id} as="h1">{state.name}</Header>
   }
 
+  // return header with name of Climbing Location and also make responsives for mobile,
+  // tablet, and desktop with different row sizes
   returnStateLocations = (state) => {
     return state.locations.map(location => {
       return <React.Fragment
         key={location.id}>
         {location.routes.length > 0 ? <Header key={location.id} as='h2'>{location.name}</Header> : "" }
+
         <Responsive maxWidth={529}>
         <Card.Group itemsPerRow={1}>
           {location.routes.map(route => {
