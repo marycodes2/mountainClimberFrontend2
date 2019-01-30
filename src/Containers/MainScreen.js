@@ -19,7 +19,20 @@ class MainScreen extends React.Component {
     var filteredLocationsList = this.props.locationList.filter(location => {
       return this.props.selectedStates.includes(location.name)
     })
+    filteredLocationsList.sort(this.compare)
     this.setState({filteredLocations: filteredLocationsList})
+  }
+
+  //basic sort function for filteredLocationsList
+  compare = (a, b) => {
+    let comparison = 0
+    if (a.name > b.name) {
+      comparison = 1
+    }
+    else {
+      comparison = -1
+    }
+    return comparison
   }
 
   // return header with state name
