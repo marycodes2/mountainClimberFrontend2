@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FirstScreen from '../Components/FirstScreen'
 import SecondScreen from '../Components/SecondScreen'
 import MainScreen from './MainScreen'
+import { Loader, Container, Icon, Header } from 'semantic-ui-react'
 const BASE_URL = 'https://mountain-climber-back-end.herokuapp.com/api/v1'
 
 class App extends Component {
@@ -37,11 +38,26 @@ class App extends Component {
     this.setState({secondScreenDone: false})
   }
 
+  loader = () => {
+    return <Container
+      textAlign='center'>
+        <Header
+          as='h1'>
+          <Icon name='map signs'/>
+          Welcome to MountainClimber!
+        </Header>
+        <Loader active inline='centered' />
+      </Container>
+  }
+
   // render each screen according to whether they are done and the sortLocationList
   // has loaded. Note second screen does not load until locationList len > 0
   render() {
-    if (!this.state.firstScreenDone || this.state.locationList.length === 0) {
+    if (!this.state.firstScreenDone) {
       return <FirstScreen done={this.firstScreenDone} />
+    }
+    else if (this.state.firstScreenDone && this.state.locationList.length === 0) {
+      return this.loader()
     }
     else if (this.state.firstScreenDone && !this.state.secondScreenDone && this.state.locationList.length > 0){
       return <SecondScreen url={BASE_URL} locationList={this.state.locationList} done={(states) => this.secondScreenDone(states)} />
