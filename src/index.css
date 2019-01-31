@@ -74,6 +74,10 @@ code {
   margin-top: 100px;
 }
 
+/* < 767 => 100 margin - 13.03vw
+  768 <  > 988 => 160 margin  - 16.19vw
+  > 989 => 220 margin  - 22.24 */
+
 #submitExpandedMed {
   margin-top: 160px;
 }

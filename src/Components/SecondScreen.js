@@ -100,46 +100,40 @@ class SecondScreen extends React.Component {
 
   //determine where the button should be situated on the page based on whether
   //dropdown is activated (updates on every state change as a result of button click)
+  //also determines margin based on window width
   determineButton = () => {
-    if (this.state.expanded) {
-      return <React.Fragment>
-
-      <Responsive maxWidth={767}>
-        <Button
+    let width = window.innerWidth
+    if (this.state.expanded && width < 767) {
+      return <Button
           color='green'
-          onClick={() => this.handleSelections()}
+          onClick={this.handleSelections}
           id='submitExpanded'
           >
           Submit
         </Button>
-      </Responsive>
-
-      <Responsive minWidth={768} maxWidth={988}>
-        <Button
+    }
+    else if (this.state.expanded && width > 766 && width < 988) {
+        return <Button
           color='green'
-          onClick={() => this.handleSelections()}
+          onClick={this.handleSelections}
           id='submitExpandedMed'
           >
           Submit
         </Button>
-      </Responsive>
-
-        <Responsive minWidth={989}>
-          <Button
-            color='green'
-            onClick={() => this.handleSelections()}
-            id='submitExpandedLarge'
-            >
-            Submit
-          </Button>
-        </Responsive>
-
-        </React.Fragment>
+    }
+    else if (this.state.expanded && width > 987) {
+        return <Button
+          color='green'
+          onClick={this.handleSelections}
+          id='submitExpandedLarge'
+          >
+          Submit
+        </Button>
     }
     else {
       return <Button
         color='green'
-        onClick={() => this.handleSelections()}
+        onClick={this.handleSelections}
         id='submitNotExpanded'
         >
         Submit
