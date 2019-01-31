@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Header, Dropdown, Button, Loader, Responsive } from 'semantic-ui-react'
+import { Container, Header, Dropdown, Button, Loader } from 'semantic-ui-react'
 import { CSSTransition } from 'react-transition-group';
 
 class SecondScreen extends React.Component {
